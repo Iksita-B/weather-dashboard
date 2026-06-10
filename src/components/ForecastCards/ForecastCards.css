@@ -1,0 +1,312 @@
+/* ================================================
+   FORECAST CARDS - 7 DAY FORECAST
+   ================================================ */
+
+.forecast-cards {
+  animation: fade-in-up 600ms ease-out 700ms both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ================================================
+   FORECAST ITEM
+   ================================================ */
+
+.forecast-item {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: var(--space-6);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+  animation: slide-up 600ms ease-out var(--stagger) both;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.forecast-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 212, 255, 0.02));
+  border-radius: 16px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.forecast-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(0, 212, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
+}
+
+.forecast-item:hover::before {
+  opacity: 1;
+}
+
+/* TODAY HIGHLIGHT */
+.forecast-item--today {
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.15), rgba(0, 212, 255, 0.08));
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 102, 255, 0.2), inset 0 0 20px rgba(0, 102, 255, 0.05);
+}
+
+.forecast-item--today::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, var(--color-primary-light), transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.forecast-item--today .forecast-day-name {
+  color: var(--color-primary-light);
+}
+
+.forecast-item--today .temp-high {
+  color: var(--color-primary-light);
+}
+
+/* ================================================
+   FORECAST CONTENT
+   ================================================ */
+
+.forecast-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  position: relative;
+  z-index: 1;
+}
+
+.forecast-day-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.2px;
+}
+
+.forecast-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.forecast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-light);
+  filter: drop-shadow(0 0 8px rgba(51, 153, 255, 0.2));
+  transition: transform var(--transition-base);
+  position: relative;
+  z-index: 1;
+}
+
+.forecast-item:hover .forecast-icon {
+  transform: scale(1.1);
+}
+
+.forecast-temps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  position: relative;
+  z-index: 1;
+}
+
+.temp-high {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 600;
+  color: var(--color-primary-light);
+}
+
+.temp-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.temp-low {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+/* PRECIPITATION */
+.forecast-precipitation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-info);
+  background: rgba(59, 130, 246, 0.1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  position: relative;
+  z-index: 1;
+}
+
+.precip-label {
+  font-size: var(--font-size-sm);
+}
+
+.precip-value {
+  font-weight: 600;
+}
+
+/* ================================================
+   LOADING STATE
+   ================================================ */
+
+.skeleton-forecast {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ================================================
+   RESPONSIVE DESIGN
+   ================================================ */
+
+@media (max-width: 1024px) {
+  .forecast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .forecast-item {
+    padding: var(--space-4);
+    gap: var(--space-3);
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .forecast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: var(--space-2);
+  }
+
+  .forecast-item {
+    padding: var(--space-3);
+    gap: var(--space-2);
+    border-radius: 10px;
+  }
+
+  .forecast-day-name {
+    font-size: var(--font-size-xs);
+  }
+
+  .forecast-date {
+    font-size: 0.625rem;
+  }
+
+  .forecast-icon {
+    font-size: 28px;
+  }
+
+  .temp-high,
+  .temp-low {
+    font-size: 1rem;
+  }
+
+  .forecast-precipitation {
+    font-size: 0.625rem;
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: var(--space-2);
+  }
+
+  .forecast-item {
+    padding: var(--space-2);
+    gap: var(--space-1);
+    border-radius: 8px;
+  }
+
+  .forecast-day-name {
+    font-size: 0.625rem;
+  }
+
+  .forecast-date {
+    font-size: 0.5rem;
+  }
+
+  .forecast-icon {
+    font-size: 20px;
+  }
+
+  .forecast-temps {
+    gap: var(--space-2);
+  }
+
+  .temp-high,
+  .temp-low {
+    font-size: 0.875rem;
+  }
+
+  .temp-divider {
+    height: 16px;
+  }
+
+  .forecast-precipitation {
+    font-size: 0.5rem;
+    padding: var(--space-1);
+  }
+
+  .precip-label {
+    font-size: 0.625rem;
+  }
+}

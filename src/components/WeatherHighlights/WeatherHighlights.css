@@ -1,0 +1,243 @@
+/* ================================================
+   WEATHER HIGHLIGHTS - METRICS GRID
+   ================================================ */
+
+.weather-highlights {
+  animation: fade-in-up 600ms ease-out 500ms both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-6);
+}
+
+/* ================================================
+   HIGHLIGHT CARD
+   ================================================ */
+
+.highlight-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: var(--space-6);
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  animation: slide-up 600ms ease-out var(--stagger) both;
+  display: flex;
+  gap: var(--space-6);
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 100%, var(--color, #0066ff) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.highlight-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(0, 212, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 102, 255, 0.2);
+}
+
+.highlight-card:hover::before {
+  opacity: 0.1;
+}
+
+/* ================================================
+   HIGHLIGHT ICON
+   ================================================ */
+
+.highlight-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+  filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.1));
+}
+
+.highlight-card:hover .highlight-icon {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--color, #0066ff);
+  transform: rotate(6deg) scale(1.05);
+}
+
+/* ================================================
+   HIGHLIGHT CONTENT
+   ================================================ */
+
+.highlight-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.highlight-title {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.highlight-value {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.highlight-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  margin: 0;
+}
+
+/* ================================================
+   LOADING STATE
+   ================================================ */
+
+.skeleton-card {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ================================================
+   RESPONSIVE DESIGN
+   ================================================ */
+
+@media (max-width: 1024px) {
+  .highlights-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .highlight-card {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .highlight-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .highlight-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .highlight-card {
+    padding: var(--space-4);
+    gap: var(--space-3);
+    border-radius: 12px;
+  }
+
+  .highlight-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .highlight-title {
+    font-size: 0.75rem;
+  }
+
+  .highlight-value {
+    font-size: 1.25rem;
+  }
+
+  .highlight-description {
+    font-size: 0.625rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .highlights-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .highlight-card {
+    padding: var(--space-3);
+    gap: var(--space-3);
+    border-radius: 10px;
+    flex-direction: row;
+  }
+
+  .highlight-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .highlight-icon svg {
+    font-size: 20px;
+  }
+
+  .highlight-title {
+    font-size: 0.625rem;
+  }
+
+  .highlight-value {
+    font-size: 1.125rem;
+  }
+
+  .highlight-description {
+    font-size: 0.5rem;
+  }
+}

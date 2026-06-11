@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const GEOCODING_API = 'https://geocoding-api.open-meteo.com/v1/search';
-const WEATHER_API = 'https://api.open-meteo.com/v1/forecast';
-const AIR_QUALITY_API = 'https://air-quality-api.open-meteo.com/v1/air_quality';
+const GEOCODING_API = import.meta.env.VITE_GEOCODING_API;
+const WEATHER_API = import.meta.env.VITE_WEATHER_API;
+const AIR_QUALITY_API = import.meta.env.VITE_AIR_QUALITY_API;
 
 /**
  * Search for cities using Open-Meteo Geocoding API
@@ -26,7 +26,7 @@ export const searchCities = async (query) => {
     return response.data.results || [];
   } catch (error) {
     console.error('Error searching cities:', error);
-    throw new Error('Failed to search cities. Please try again.');
+    throw new Error('Failed to search cities. Please try again.', { cause: error });
   }
 };
 
@@ -54,7 +54,7 @@ export const getCurrentWeather = async (latitude, longitude) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching weather:', error);
-    throw new Error('Failed to fetch weather data. Please try again.');
+    throw new Error('Failed to fetch weather data. Please try again.', { cause: error });
   }
 };
 
@@ -107,7 +107,7 @@ export const getLocationWeather = async (latitude, longitude) => {
 /**
  * Get weather code description
  */
-export const getWeatherDescription = (code, isDay = true) => {
+export const getWeatherDescription = (code) => {
   const weatherCodes = {
     0: 'Clear Sky',
     1: 'Mainly Clear',
